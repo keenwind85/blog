@@ -1,6 +1,6 @@
 ---
 title: "[기획자의 개발 도전기] 6편 - Native앱과 WebView 사이에서 FCM 토큰 살리기"
-date: 2026-02-26
+date: 2026-01-30
 tags:
   - 바이브코딩
   - FCM
