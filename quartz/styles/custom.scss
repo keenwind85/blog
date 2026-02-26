@@ -1,9 +1,6 @@
 @use "./base.scss";
 
-// Nanum Gothic (나눔고딕) from Google Fonts
-@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap");
-
-// D2Coding from Naver CDN
+// D2Coding (D2코딩) - Google Fonts에 없어서 CDN으로 직접 로드
 @font-face {
   font-family: "D2Coding";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
