@@ -8,3 +8,197 @@
   font-weight: normal;
   font-style: normal;
 }
+
+// ============================================
+// A. 글로벌 폰트 크기 축소
+// ============================================
+html {
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================
+// B. 타이포그래피 개선
+// ============================================
+.center > article {
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+article {
+  h1 {
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+    margin-top: 1.6rem;
+    margin-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.15rem;
+    margin-top: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+  h4, h5, h6 {
+    font-size: 1rem;
+    margin-top: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+a {
+  font-weight: 500;
+}
+
+// ============================================
+// C. 콘텐츠 요소 정리
+// ============================================
+blockquote {
+  border-left: 2px solid var(--gray);
+  margin: 0.8rem 0;
+  padding: 0.3rem 0 0.3rem 1rem;
+}
+
+pre {
+  border-radius: 8px !important;
+  font-size: 0.82rem;
+}
+
+code {
+  font-size: 0.82rem;
+}
+
+article img {
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+hr {
+  margin: 1.5rem 0;
+  opacity: 0.5;
+}
+
+table {
+  td, th {
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+// ============================================
+// D. 레이아웃 간격
+// ============================================
+.sidebar {
+  gap: 1rem;
+}
+
+div[id="progress"] {
+  height: 2px;
+}
+
+// ============================================
+// E. 모바일 최적화
+// ============================================
+@media all and (max-width: 800px) {
+  html {
+    font-size: 15px;
+  }
+
+  .center {
+    padding: 0 1.25rem;
+  }
+
+  article {
+    h1 { font-size: 1.55rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+  }
+
+  // 터치 타겟 최소 44px
+  button,
+  .hamburger,
+  #search-icon {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  // Explorer 상단 패딩 축소
+  .explorer {
+    padding-top: 0.5rem;
+  }
+
+  // Footer 하단 여백
+  footer {
+    margin-bottom: 1rem;
+  }
+}
+
+// ============================================
+// F. 컴포넌트 정리
+// ============================================
+
+// Explorer, TOC, Backlinks, Graph 제목
+.sidebar h3,
+.sidebar .h3,
+.sidebar > .explorer > button > h2,
+#toc > h3,
+.backlinks > h3,
+.graph > h3 {
+  font-size: 0.9rem;
+}
+
+// Graph 높이
+.graph > .graph-outer {
+  height: 220px;
+}
+
+// ContentMeta
+.content-meta {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+// Breadcrumbs
+.breadcrumb-container {
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+// Footer
+footer {
+  font-size: 0.85rem;
+}
+
+// Popover
+.popover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+// 검색 입력
+#search-bar {
+  font-size: 1em;
+}
+
+// Callout
+.callout {
+  border-radius: 8px;
+}
+
+// ============================================
+// G. 마감 폴리시
+// ============================================
+a,
+button,
+.popover,
+.sidebar,
+.explorer,
+.search {
+  transition-duration: 0.15s;
+}
+
+::selection {
+  background: rgba(143, 159, 169, 0.25);
+}
