@@ -1,8 +1,8 @@
 ---
-title: 스타트업에서 우당탕탕 경험을 기록합니다.
-description: "스타트업 PO가 기획부터 개발까지 직접 해본 경험을 기록합니다. Flutter, Supabase, Firebase를 활용한 앱 개발과 레거시 백엔드 리팩토링 이야기."
+title: 📒 스타트업에서 우당탕탕 경험을 기록합니다.
+description: 스타트업 PO가 기획부터 개발까지 직접 해본 경험을 기록합니다. Flutter, Supabase, Firebase를 활용한 앱 개발과 레거시 백엔드 리팩토링 이야기.
 ---
-> 항상 0 → 1을 만드는 것에 익숙한 스타트업 PO입니다. AI의 발전을 현장에서 느끼며 Product Owner에서 직접 개발까지 하는 Product Architect가 되기까지의 이야기와 경험치를 기록합니다.
+> 🤔 **항상 0 → 1을 만드는 것에 익숙한 스타트업 PO입니다. AI의 발전을 현장에서 느끼며 Product Owner에서 직접 개발까지 하는 Product Architect가 되기까지의 이야기와 경험치를 기록합니다.**
 
 ## 기획자의 개발 도전기_0 — Flutter 앱 만들기
 
