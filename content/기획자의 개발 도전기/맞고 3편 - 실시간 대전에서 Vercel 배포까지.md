@@ -11,7 +11,7 @@ tags:
   - 맞고
 ---
 
-# 실시간 대전에서 Vercel 배포까지
+# 실시간 대전에서 [Vercel 배포](https://go-stop-flutter.vercel.app)까지
 
 ## 3000줄의 로직, 이제 두 사람을 연결해야 한다
 
