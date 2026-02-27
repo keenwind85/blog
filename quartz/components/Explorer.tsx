@@ -119,6 +119,14 @@ export default ((userOpts?: Partial<Options>) => {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
+        <div class="explorer-sort-controls">
+          <button class="explorer-sort-btn active" data-sort="newest" type="button">
+            최신순
+          </button>
+          <button class="explorer-sort-btn" data-sort="oldest" type="button">
+            오래된순
+          </button>
+        </div>
         <div id={id} class="explorer-content" aria-expanded={false} role="group">
           <OverflowList class="explorer-ul" />
         </div>

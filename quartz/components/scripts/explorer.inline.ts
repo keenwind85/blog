@@ -20,6 +20,7 @@ type FolderState = {
 }
 
 let currentExplorerState: Array<FolderState>
+let explorerSortOrder: "newest" | "oldest" = "newest"
 function toggleExplorer(this: HTMLElement) {
   const nearestExplorer = this.closest(".explorer") as HTMLElement
   if (!nearestExplorer) return
@@ -154,8 +155,68 @@ function createFolderNode(
   return li
 }
 
+function makeReverseSortFn(
+  originalSortFn: (a: FileTrieNode, b: FileTrieNode) => number,
+): (a: FileTrieNode, b: FileTrieNode) => number {
+  return (a, b) => {
+    // Always keep folders first
+    if (a.isFolder && !b.isFolder) return -1
+    if (!a.isFolder && b.isFolder) return 1
+    if (a.isFolder && b.isFolder) return originalSortFn(a, b)
+    // Reverse file sort order
+    return -originalSortFn(a, b)
+  }
+}
+
+function renderExplorerTree(
+  explorerUl: Element,
+  trie: FileTrieNode,
+  currentSlug: FullSlug,
+  opts: ParsedOptions,
+) {
+  // Clear existing content
+  explorerUl.innerHTML = ""
+
+  const fragment = document.createDocumentFragment()
+  for (const child of trie.children) {
+    const node = child.isFolder
+      ? createFolderNode(currentSlug, child, opts)
+      : createFileNode(currentSlug, child)
+    fragment.appendChild(node)
+  }
+  explorerUl.appendChild(fragment)
+
+  // Set up folder click handlers
+  const explorer = explorerUl.closest(".explorer")
+  if (!explorer) return
+
+  if (opts.folderClickBehavior === "collapse") {
+    const folderButtons = explorer.getElementsByClassName(
+      "folder-button",
+    ) as HTMLCollectionOf<HTMLElement>
+    for (const button of folderButtons) {
+      button.addEventListener("click", toggleFolder)
+      window.addCleanup(() => button.removeEventListener("click", toggleFolder))
+    }
+  }
+
+  const folderIcons = explorer.getElementsByClassName(
+    "folder-icon",
+  ) as HTMLCollectionOf<HTMLElement>
+  for (const icon of folderIcons) {
+    icon.addEventListener("click", toggleFolder)
+    window.addCleanup(() => icon.removeEventListener("click", toggleFolder))
+  }
+}
+
 async function setupExplorer(currentSlug: FullSlug) {
   const allExplorers = document.querySelectorAll("div.explorer") as NodeListOf<HTMLElement>
+
+  // Restore saved sort order
+  const savedOrder = localStorage.getItem("explorerSortOrder")
+  if (savedOrder === "oldest" || savedOrder === "newest") {
+    explorerSortOrder = savedOrder
+  }
 
   for (const explorer of allExplorers) {
     const dataFns = JSON.parse(explorer.dataset.dataFns || "{}")
@@ -180,6 +241,8 @@ async function setupExplorer(currentSlug: FullSlug) {
     const entries = [...Object.entries(data)] as [FullSlug, ContentDetails][]
     const trie = FileTrieNode.fromEntries(entries)
 
+    const originalSortFn = opts.sortFn
+
     // Apply functions in order
     for (const fn of opts.order) {
       switch (fn) {
@@ -190,7 +253,13 @@ async function setupExplorer(currentSlug: FullSlug) {
           if (opts.mapFn) trie.map(opts.mapFn)
           break
         case "sort":
-          if (opts.sortFn) trie.sort(opts.sortFn)
+          if (originalSortFn) {
+            const sortToUse =
+              explorerSortOrder === "oldest"
+                ? makeReverseSortFn(originalSortFn)
+                : originalSortFn
+            trie.sort(sortToUse)
+          }
           break
       }
     }
@@ -209,16 +278,7 @@ async function setupExplorer(currentSlug: FullSlug) {
     const explorerUl = explorer.querySelector(".explorer-ul")
     if (!explorerUl) continue
 
-    // Create and insert new content
-    const fragment = document.createDocumentFragment()
-    for (const child of trie.children) {
-      const node = child.isFolder
-        ? createFolderNode(currentSlug, child, opts)
-        : createFileNode(currentSlug, child)
-
-      fragment.appendChild(node)
-    }
-    explorerUl.insertBefore(fragment, explorerUl.firstChild)
+    renderExplorerTree(explorerUl, trie, currentSlug, opts)
 
     // restore explorer scrollTop position if it exists
     const scrollTop = sessionStorage.getItem("explorerScrollTop")
@@ -241,24 +301,30 @@ async function setupExplorer(currentSlug: FullSlug) {
       window.addCleanup(() => button.removeEventListener("click", toggleExplorer))
     }
 
-    // Set up folder click handlers
-    if (opts.folderClickBehavior === "collapse") {
-      const folderButtons = explorer.getElementsByClassName(
-        "folder-button",
-      ) as HTMLCollectionOf<HTMLElement>
-      for (const button of folderButtons) {
-        button.addEventListener("click", toggleFolder)
-        window.addCleanup(() => button.removeEventListener("click", toggleFolder))
-      }
-    }
+    // Set up sort toggle buttons
+    const sortBtns = explorer.querySelectorAll<HTMLButtonElement>(".explorer-sort-btn")
+    sortBtns.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.sort === explorerSortOrder)
+      const handler = async () => {
+        const newOrder = btn.dataset.sort as "newest" | "oldest"
+        if (newOrder === explorerSortOrder) return
+        explorerSortOrder = newOrder
+        localStorage.setItem("explorerSortOrder", newOrder)
 
-    const folderIcons = explorer.getElementsByClassName(
-      "folder-icon",
-    ) as HTMLCollectionOf<HTMLElement>
-    for (const icon of folderIcons) {
-      icon.addEventListener("click", toggleFolder)
-      window.addCleanup(() => icon.removeEventListener("click", toggleFolder))
-    }
+        // Re-sort trie and re-render
+        const sortToUse =
+          newOrder === "oldest" ? makeReverseSortFn(originalSortFn) : originalSortFn
+        trie.sort(sortToUse)
+        renderExplorerTree(explorerUl, trie, currentSlug, opts)
+
+        // Update button states
+        sortBtns.forEach((b) => {
+          b.classList.toggle("active", b.dataset.sort === newOrder)
+        })
+      }
+      btn.addEventListener("click", handler)
+      window.addCleanup(() => btn.removeEventListener("click", handler))
+    })
   }
 }
 

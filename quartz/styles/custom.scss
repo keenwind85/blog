@@ -188,6 +188,43 @@ footer {
 }
 
 // ============================================
+// H. 정렬 토글 버튼
+// ============================================
+.sort-controls,
+.explorer-sort-controls {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.sort-btn,
+.explorer-sort-btn {
+  background: transparent;
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  color: var(--darkgray);
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+  }
+
+  &.active {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light);
+  }
+}
+
+.explorer-sort-controls {
+  padding: 0 0 0.3rem 0;
+}
+
+// ============================================
 // G. 마감 폴리시
 // ============================================
 a,

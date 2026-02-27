@@ -10,6 +10,9 @@ import { ComponentChildren } from "preact"
 import { concatenateResources } from "../../util/resources"
 import { trieFromAllFiles } from "../../util/ctx"
 
+// @ts-ignore
+import folderSortScript from "../scripts/folderSort.inline"
+
 interface FolderContentOptions {
   /**
    * Whether to display number of folders
@@ -113,6 +116,14 @@ export default ((opts?: Partial<FolderContentOptions>) => {
               })}
             </p>
           )}
+          <div class="sort-controls">
+            <button class="sort-btn active" data-sort="newest">
+              최신순
+            </button>
+            <button class="sort-btn" data-sort="oldest">
+              오래된순
+            </button>
+          </div>
           <div>
             <PageList {...listProps} />
           </div>
@@ -122,5 +133,6 @@ export default ((opts?: Partial<FolderContentOptions>) => {
   }
 
   FolderContent.css = concatenateResources(style, PageList.css)
+  FolderContent.afterDOMLoaded = folderSortScript
   return FolderContent
 }) satisfies QuartzComponentConstructor
