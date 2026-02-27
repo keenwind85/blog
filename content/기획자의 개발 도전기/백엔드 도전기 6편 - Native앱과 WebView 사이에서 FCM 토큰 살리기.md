@@ -1,5 +1,6 @@
 ---
 title: "[기획자의 개발 도전기] 6편 - Native앱과 WebView 사이에서 FCM 토큰 살리기"
+description: "React Native 앱 안의 WebView에서 FCM 토큰을 등록하는 Bridge 통신 구조 설계기. 네이티브에서 토큰을 받아 웹으로 전달하는 7단계 흐름을 구현하다."
 date: 2026-01-30
 tags:
   - 바이브코딩

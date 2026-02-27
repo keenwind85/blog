@@ -1,5 +1,6 @@
 ---
 title: "[기획자의 개발 도전기] 맞고 3편 - 실시간 대전에서 Vercel 배포까지"
+description: "Firebase Realtime DB로 실시간 대전을 구현하고, 아이템·코인 시스템을 설계하고, Vercel에 Flutter Web을 배포하기까지. 서버리스 멀티플레이어 게임 아키텍처 실전기."
 date: 2026-02-19
 tags:
   - 바이브코딩

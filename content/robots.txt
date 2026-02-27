@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://keenwind85.github.io/blog/sitemap.xml
